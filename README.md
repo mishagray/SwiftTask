@@ -118,6 +118,38 @@ functionThatReturnsAtTask.dependentTaskWith { (task : SwiftTask!) -> AnyObject? 
 ```
  
 
+What about all my Bolts Code!?:
+=========
+
+If you have a lot of code that uses BFTask, great.  You can keep it.  
+SwiftTask will also work in your Objective C code, but since BFTask has been adopted by other libraries (like AWS http://mobile.awsblog.com/post/Tx2B17V9NSVLP3I/The-AWS-Mobile-SDK-for-iOS-How-to-use-BFTask), I made some extensions to make your life easy.
+
+There is an extension on SwiftTask to return a BFTask when you need it.
+
+```swift
+extension SwiftTask {
+    
+    func bftask() -> BFTask
+}
+```
+
+So you can also generate a SwiftTask from a BFTask, but I also added some SwiftTask methods directly to BFTask.
+Including the enumeration _completionValue_
+
+```swift
+extension BFTask  {
+    var completionValue : SwiftTaskCompletionValue
+    // ...
+    func swiftTask() -> SwiftTask
+    // ..
+    func dependentTaskWith(block: (task : SwiftTask!) -> AnyObject?, queue: dispatch_queue_t? = nil) -> SwiftTask 
+}
+```
+So you can convert a BFTask to a SwiftTask and visa-versa.  
+
+It's also "legal" to return a BFTask as a result in your task block via "dependentTaskWith" of instead of a SwiftTask. Everything works fine.   The change in nomenclature HELPS keep track of the change.  But we don't expect people to give up using BFTask for a long while.
+
+
 
 
 
