@@ -13,9 +13,9 @@ Instead of doing a straight PORT, I did a simulataneous "port" and "rewrite".
 
 With a few goals:
 
-1) 100% Swift code.
-2) Some interoperability with BFTask.  
-3) Import some lessons learned by Facebook when they create FBTask (https://github.com/facebook/facebook-ios-sdk/blob/master/src/FBTask.h)
+- 100% Swift code.
+- Some interoperability with BFTask.  
+- Import some lessons learned by Facebook when they create FBTask (https://github.com/facebook/facebook-ios-sdk/blob/master/src/FBTask.h)
 
 
 With that, while SwiftTask LOOKS a lot like BFTask, it's really a more swift friendly implementation.
