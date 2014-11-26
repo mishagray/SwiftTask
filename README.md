@@ -166,9 +166,7 @@ extension BFTask  {
     func dependentTaskWith(block: (task : SwiftTask!) -> AnyObject?, queue: dispatch_queue_t? = nil) -> SwiftTask 
 }
 ```
-So you can convert a BFTask to a SwiftTask and visa-versa.  
-
-It's also "legal" to return a BFTask as a result in your task block via "dependentTaskWith" of instead of a SwiftTask. Everything works fine.   The change in nomenclature HELPS keep track of the change.  But we don't expect people to give up using BFTask for a long while.
+It's also "legal" to return a BFTask as a result in your task block via "dependentTaskWith" of instead of a SwiftTask.  Everything works fine.   The change in nomenclature can help you remember which library you are uisng, but mostly it all works fine.  But we don't expect people to give up using BFTask for a long while.
 
 
 
