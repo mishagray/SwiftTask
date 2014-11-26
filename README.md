@@ -164,6 +164,7 @@ Yeah... But UIKit objects still throw them.   I wrote a quick Try/Catch/Finally 
 
 @end
 ```
+I've added a default exception handler for dependentTaskWith, so don't worry if your block throws an exception.  The task will "complete" with an Exception result value.
 
 Here is a quick SwiftTask exception I made for NSFetchedResultsController, since Core Data likes to throw exceptions
 ```swift
