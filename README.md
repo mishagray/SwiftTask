@@ -235,19 +235,19 @@ Or even offering different signatures.  Like getting rid of the "requirement" to
 ```swift
 class SwiftTask: NSObject {
         // Classic mode:
-        func dependentTaskWith(block: (task : SwiftTask!) -> AnyObject?) -> SwiftTask
+        func dependentTaskWith(block: (task : SwiftTask!) -> AnyObject?) -> SwiftTask;
 
         // I don't care about the result of the last task, and I return no result
-        func dependentTaskWith(block: () -> Void) -> SwiftTask
+        func dependentTaskWith(block: () -> Void) -> SwiftTask;
 
         // Classic mode but with no result
-        func dependentTaskWith(block: (task : SwiftTask!) -> Void) -> SwiftTask
+        func dependentTaskWith(block: (task : SwiftTask!) -> Void) -> SwiftTask;
         
         // Just use the completion value
-        func dependentTaskWith(block: (completionValue : SwiftTaskCompletionValue) -> SwiftTaskCompletionValue)     
+        func dependentTaskWith(block: (completionValue : SwiftTaskCompletionValue) -> SwiftTaskCompletionValue);     
                
          // Just use the completion values.
-        func dependentTaskWith(block: (taskCompletionValue : SwiftTaskCompletionValue) -> Void) -> SwiftTask
+        func dependentTaskWith(block: (taskCompletionValue : SwiftTaskCompletionValue) -> Void) -> SwiftTask;
 }
 ```
 I'm not including them in this release yet.  I think I'm gonna create an "experimental extension" to explore what feels like the best way to simply this stuff.   While using other block signatures can definitely make the code feel smaller and clearer, it also seems to obsficate things at times, and may cause more bugs or confusion about what sort of task block you wanted.
