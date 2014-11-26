@@ -218,8 +218,9 @@ extension NSFetchedResultsController {
 
 What's next:
 =========
+I plan on making a few more changes to SwiftTask that may break backward compatiblity.  Nothing major.  Nothing that you won't be able to fix using a few find and replaces.  But I'm trying to decide on a few things before we "settle" on a version that will be supported forver.    
 
-I'm still trying to push using Swift to simply construction of tasks.
+I'm still trying to push using Swift to simply construction of tasks blocks.
 I've been experimenting with changing the "classic" Block Signature into something that actually returns an enumeration result:
 
 ```swift
@@ -229,6 +230,7 @@ class SwiftTask: NSObject {
 ```
 What feels NICE is being able to write a block and just "return .Error(e)"  if you want to return an error result.
 
+BUT - since the enumeration class can't exist inside of Objective-C, there are compatbility issues with using enumerations instead of AnyObject?   I've thought about using an class "wrapper" for the enumeration type with constructors that are Objective-C compatible, to clean that up.
 
 
 Or even offering different signatures.  Like getting rid of the "requirement" to "return nil" for task blocks that don't return a result.  And letting the swift compiler figure out which block signature you want to use:
@@ -250,7 +252,7 @@ class SwiftTask: NSObject {
         func dependentTaskWith(block: (taskCompletionValue : SwiftTaskCompletionValue) -> Void) -> SwiftTask  {}
 }
 ```
-I'm not including them in this release yet.  I think I'm gonna create an "experimental extension" to explore what feels like the best way to simply this stuff.   While using other block signatures can definitely make the code feel smaller and clearer, it also seems to obsficate things at times, and may cause more bugs or confusion about what sort of task block you wanted.
+While using other block signatures can definitely make the code feel smaller and clearer, it also seems to obsficate things at times, and may cause more bugs or confusion about what sort of task block the developer wanted.
 If you have any ideas, feel free to create a cool fork and try it out.
 Or you can email me at mailto:michael@pushleaf.com
 
