@@ -82,6 +82,18 @@ functionThatReturnsAtTask.dependentTaskWith { (task : SwiftTask!) -> AnyObject? 
 ```
 
 
+Or simplify:
+```swift
+functionThatReturnsAtTask.dependentTaskWith { (task : SwiftTask!) -> AnyObject? in
+                switch task.completionValue {
+                case let .Result(r):
+                    NSLog("result = \(r)")
+                default:
+                    NSLog("ug!")
+                }
+              }
+```
+
  
 
 
