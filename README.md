@@ -43,6 +43,7 @@ CHANGES
 =========
 Added the enumeration TaskCompletionValue
 
+```swift
 enum SwiftTaskCompletionValue {
     case NotDone
     case Result(AnyObject?)
@@ -50,20 +51,20 @@ enum SwiftTaskCompletionValue {
     case Exception(NSException)
     case Cancelled
   }
-  
+```
 Tasks now just have a single property 
 
+```swift
 class SwiftTask: NSObject {
   var completionValue : TaskCompletionValue
-...
 }
-
+```
 Since the enum doesn't get exposed Objective-C, I added back all the old BFTask properties (result, error, exception).  In case you want to use SwiftTask's in your Objective C code.
 
 But this also means you can use a switch "Switch" statement to check your previous Tasks results.
 
 Example:
-
+```swift
 functionThatReturnsAtTask.dependentTaskWith { (task : SwiftTask!) -> AnyObject? in
                 switch task.completionValue {
                 case let .NotDone:
@@ -78,6 +79,7 @@ functionThatReturnsAtTask.dependentTaskWith { (task : SwiftTask!) -> AnyObject? 
                     NSLog("result = \(r)")
                 }
               }
+```
 
 
  
