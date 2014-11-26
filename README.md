@@ -152,7 +152,7 @@ It's also "legal" to return a BFTask as a result in your task block via "depende
 
 
 
-Didn't swift kill Exceptions?
+Didn't swift kill exceptions?
 =========
 Yeah... But UIKit objects still throw them.   I wrote a quick Try/Catch/Finally implementation for Swift (using Objective-C of course).  So it's still possible to catch execptions thrown by your legacy code:
 
