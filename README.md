@@ -23,7 +23,7 @@ With that, while SwiftTask LOOKS a lot like BFTask, it's really a more swift fri
 Some background:
 =========
 
-Facebook ported a lighter version of BFTask into the latest Facebook SDK. (Called FBTask)  And they made some changes that I kind of agreed with.  Like renaming "continueWithBlock" to "dependentTaskWithBlocK".  After trying to indoctrinate a few co-workers into Bolts, it seemed that people preferred the FBTask nameing.  Since Bolts is "owned" by Facebook, I took this as the leading nomenclature and adopted it as the perferred method in my port.
+Facebook ported a lighter version of BFTask into the latest Facebook SDK. (Called FBTask)  And they made some changes that I kind of agreed with.  Like renaming _"continueWithBlock"_ to _"dependentTaskWithBlocK"_.  After trying to indoctrinate a few co-workers into Bolts, it seemed that people preferred the FBTask nameing.  Since Bolts is "owned" by Facebook now, I took this as the leading nomenclature and adopted it as the perferred method in my port.
 
 I dropped the suffix "Block" from my methods.  The preferred calls are now "dependentTaskWith" and "completionTaskWith".  It just looks cleaner in Swift.   
 
@@ -34,7 +34,7 @@ Facebook also made one big change, which is that by default, EACH BLOCK is seper
         
 I haven't VALIDATED that it's faster.  But those guys have Facebook have more time and money to test stuff than I do.  So i did the same thing, and I'm trusting they are right. Of course, XCode 6 now debugs asynch dispatch "stack trace" just fine. 
 
-So I also killed the idea of "immediate exeuction".  The default queue is always dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), so be careful about task blocks that you want to run in the Main Queue. (I added a "dependentTaskOnMainQueueWith") 
+So I also killed "immediate execution".  The default queue is always _dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)_, so be careful about task blocks that you want to run in the Main Queue. If you want your task on the main queue just use _"dependentTaskOnMainQueueWith"_
 
 But Facebook didn't port "taskForCompletionOfAllTasks"!    Which is crazy useful, if you want things to execute in parallel.   So I ported that from Bolts.   Cause maybe I over use it.  
 
