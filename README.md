@@ -32,7 +32,7 @@ Facebook also killed the BFExector.  Instead you just pass a dispatch_queue_t.  
 Facebook also made one big change, which is that by default, EACH BLOCK is seperately dispatched to it's queue everytime.  There is no "immediate" execution now, like the default BFExecutor.   I found this nice leading comment in the code : 
         _"Always dispatching callbacks async consumes less stack space, and seems to be a little faster, but loses stacktrace information. "_
         
-I haven't VALIDATED that it's faster.  But those guys have Facebook have more time and money to test stuff than I do.  So i did the same thing, and I'm trusting they are right. Of course, XCode 6 now debugs asynch dispatch "stack trace" just fine. 
+I haven't VALIDATED that it's faster.  But those guys have Facebook have more time and money to test stuff than I do.  So i did the same thing, and I'm trusting they are right. Of course, XCode 6 now debugs dispatch "stack traces" just fine. 
 
 So I also killed "immediate execution".  The default queue is always _dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)_, so be careful about task blocks that you want to run in the Main Queue. If you want your task on the main queue just use _"dependentTaskOnMainQueueWith"_
 
@@ -152,6 +152,45 @@ It's also "legal" to return a BFTask as a result in your task block via "depende
 
 
 
+Didn't swift kill Exceptions?
+=========
+Yeah... But UIKit objects still throw them.   I wrote a quick Try/Catch/Finally implementation for Swift (using Objective-C of course).  So it's still possible to catch execptions thrown by your legacy code:
 
+```objective-c
+@interface SwiftExtras : NSObject
+
++ (void)Try:(void(^)())tryBlock catch:(void(^)(NSException *exception))exceptionBlock finally:(void(^)())finallyBlock;
++ (void)Try:(void(^)())tryBlock catch:(void(^)(NSException *exception))exceptionBlock;
+
+@end
+```
+
+Here is a quick SwiftTask exception I made for NSFetchedResultsController, since Core Data likes to throw exceptions
+```swift
+extension NSFetchedResultsController {
+    
+    func performFetchWithTask() -> SwiftTask {
+        
+        var tcs = SwiftTaskCompletionSource()
+        
+        SwiftExtras.Try({ () -> Void in
+            var error : NSError?
+            let result = self.performFetch(&error)
+            
+            if (result == false) {
+                tcs.setError(error!)
+            }
+            else {
+                tcs.setResult(result)
+            }
+            }, catch: { (exception: NSException!) -> Void in
+                tcs.trySetException(exception)
+                return;
+            })
+
+        return tcs.task
+    }
+}
+```
 
 
