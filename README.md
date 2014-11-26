@@ -157,10 +157,10 @@ Didn't swift kill Exceptions?
 Yeah... But UIKit objects still throw them.   I wrote a quick Try/Catch/Finally implementation for Swift (using Objective-C of course).  So it's still possible to catch execptions thrown by your legacy code:
 
 ```objective-c
-@interface SwiftExtras : NSObject
+@interface MissingSwift : NSObject
 
-+ (void)Try:(void(^)())tryBlock catch:(void(^)(NSException *exception))exceptionBlock finally:(void(^)())finallyBlock;
-+ (void)Try:(void(^)())tryBlock catch:(void(^)(NSException *exception))exceptionBlock;
++ (void)try:(void(^)())tryBlock catch:(void(^)(NSException *exception))exceptionBlock finally:(void(^)())finallyBlock;
++ (void)try:(void(^)())tryBlock catch:(void(^)(NSException *exception))exceptionBlock;
 
 @end
 ```
@@ -173,7 +173,7 @@ extension NSFetchedResultsController {
         
         var tcs = SwiftTaskCompletionSource()
         
-        SwiftExtras.Try({ () -> Void in
+        MissingSwift.try({ () -> Void in
             var error : NSError?
             let result = self.performFetch(&error)
             
