@@ -41,7 +41,17 @@ But Facebook didn't port "taskForCompletionOfAllTasks"!    Which is crazy useful
 
 CHANGES
 =========
-Added the enumeration TaskCompletionValue
+No more "Optional" Tasks.
+If you import Bolts into your swift code, than all the BFTask methods end up returning optionals.  
+That just polutes your code with "!" everywhere.  Bleh.
+
+```swift
+class SwiftTask: NSObject {
+        func dependentTaskWith(block: (task : SwiftTask!) -> AnyObject?) -> SwiftTask
+}
+```
+
+Added the enumeration SwiftTaskCompletionValue.  Note how each case can have optional data! 
 
 ```swift
 enum SwiftTaskCompletionValue {
@@ -52,11 +62,11 @@ enum SwiftTaskCompletionValue {
     case Cancelled
   }
 ```
-Tasks now just have a single property 
+Tasks now just have a single property that indicate what their current status or result is.
 
 ```swift
 class SwiftTask: NSObject {
-  var completionValue : TaskCompletionValue
+  var completionValue : SwiftTaskCompletionValue
 }
 ```
 Since the enum doesn't get exposed Objective-C, I added back all the old BFTask properties (result, error, exception).  In case you want to use SwiftTask's in your Objective C code.
@@ -94,6 +104,18 @@ functionThatReturnsAtTask.dependentTaskWith { (task : SwiftTask!) -> AnyObject? 
               }
 ```
 
+
+Or without a switch:
+```swift
+functionThatReturnsAtTask.dependentTaskWith { (task : SwiftTask!) -> AnyObject? in
+                if task.completed {
+                    NSLog("result = \(task.result)")
+                    }
+                else {
+                    NSLog("ug!")
+                }
+              }
+```
  
 
 
