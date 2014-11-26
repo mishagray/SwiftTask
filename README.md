@@ -30,7 +30,7 @@ I dropped the suffix "Block" from my methods.  The preferred calls are now "depe
 Facebook also killed the BFExector.  Instead you just pass a dispatch_queue_t.   When I looked at my OWN BFExecutors, I realized that they all just created dispatch_queues, so why have a wrapper?   So I adopted the same strategy.  No more Executors.  
 
 Facebook also made one big change, which is that by default, EACH BLOCK is seperately dispatched to it's queue everytime.  There is no "immediate" execution now, like the default BFExecutur.   I found this nice leading comment in the code : 
-        "Always dispatching callbacks async consumes less stack space, and seems to be a little faster, but loses stacktrace information. "
+        _"Always dispatching callbacks async consumes less stack space, and seems to be a little faster, but loses stacktrace information. "_
         
 I haven't VALIDATED that it's faster.  But those guys have Facebook have more time and money to test stuff than I do.  So i did the same thing, and I'm trusting they are right. Of course, XCode 6 now debugs asynch dispatch "stack trace" just fine. 
 
