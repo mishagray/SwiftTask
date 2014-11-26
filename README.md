@@ -1,4 +1,4 @@
-SwiftTask
+SwiftTask - (preview edition)
 =========
 
 A native Swift port of BFTask from https://github.com/BoltsFramework/Bolts-iOS
@@ -215,5 +215,49 @@ extension NSFetchedResultsController {
     }
 }
 ```
+
+What's next:
+=========
+
+I'm still trying to push using Swift to simply construction of tasks.
+I've been experimenting with changing the "classic" Block Signature into something that actually returns an enumeration result:
+
+```swift
+class SwiftTask: NSObject {
+        func dependentTaskWith(block: (taskCompletionValue : SwiftTaskCompletionValue) -> SwiftTaskCompletionValue) -> SwiftTask
+}
+```
+What feels NICE is being able to write a block and just "return .Error(e)"  if you want to return an error result.
+
+
+
+Or even offering different signatures.  Like getting rid of the "requirement" to "return nil" for task blocks that don't return a result.  And letting the swift compiler figure out which block signature you want to use:
+```swift
+class SwiftTask: NSObject {
+        // Classic mode:
+        func dependentTaskWith(block: (task : SwiftTask!) -> AnyObject?) -> SwiftTask
+
+        // I don't care about the result of the last task, and I return no result
+        func dependentTaskWith(block: () -> Void) -> SwiftTask
+
+        // Classic mode but with no result
+        func dependentTaskWith(block: (task : SwiftTask!) -> Void) -> SwiftTask
+        
+        // Just use the completion value
+        func dependentTaskWith(block: (completionValue : SwiftTaskCompletionValue) -> SwiftTaskCompletionValue)     
+               
+         // Just use the completion values.
+        func dependentTaskWith(block: (taskCompletionValue : SwiftTaskCompletionValue) -> Void) -> SwiftTask
+}
+```
+I'm not including them in this release yet.  I think I'm gonna create an "experimental extension" to explore what feels like the best way to simply this stuff.   While using other block signatures can definitely make the code feel smaller and clearer, it also seems to obsficate things at times, and may cause more bugs or confusion about what sort of task block you wanted.
+If you have any ideas, feel free to create a cool fork and try it out.
+Or you can email me at mailto:michael@pushleaf.com
+
+
+
+
+
+
 
 
