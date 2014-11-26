@@ -130,7 +130,7 @@ class SwiftTaskCompletionSource : NSObject {
         self.task.completionValue = value
     }
 
-    func trySetCompletionValue(value : TaskCompletionValue) -> Bool {
+    func trySetCompletionValue(value : SwiftTaskCompletionValue) -> Bool {
         return self.task.trySetCompletionValue(value)
     }
     
