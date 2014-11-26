@@ -116,7 +116,28 @@ functionThatReturnsAtTask.dependentTaskWith { (task : SwiftTask!) -> AnyObject? 
                 }
               }
 ```
- 
+SwiftTaskCompletionSource
+======
+
+_SwiftTaskCompletionSource_ looks a lot like _BFTaskCompletionSource_  but has a simplier implementation using the enum.  
+
+```swift
+class SwiftTaskCompletionSource : NSObject {
+    
+    var task : SwiftTask = SwiftTask()
+
+    func setCompletionValue(value : SwiftTaskCompletionValue) {
+        self.task.completionValue = value
+    }
+
+    func trySetCompletionValue(value : TaskCompletionValue) -> Bool {
+        return self.task.trySetCompletionValue(value)
+    }
+    
+    ///
+}
+```
+
 
 What about all my Bolts Code!?:
 =========
@@ -166,7 +187,8 @@ Yeah... But UIKit objects still throw them.   I wrote a quick Try/Catch/Finally 
 ```
 I've added a default exception handler for dependentTaskWith, so don't worry if your block throws an exception.  The task will "complete" with an Exception result value.
 
-Here is a quick SwiftTask exception I made for NSFetchedResultsController, since Core Data likes to throw exceptions
+However if you are using SwiftTaskCompletionSource to create a task, you may want to use it.
+Here is an extension to NSFetchedResultsController that wraps performFetch in a SwiftTask, since Core Data likes to throw exceptions
 ```swift
 extension NSFetchedResultsController {
     
